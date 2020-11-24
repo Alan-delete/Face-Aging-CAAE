@@ -52,7 +52,7 @@ def main(_):
                     use_init_model=FLAGS.use_init_model,
                     weigts=(0, 0, 0)
                 )
-                print '\n\tPre-train is done! The training will start.'
+                print ('\n\tPre-train is done! The training will start.')
             model.train(
                 num_epochs=FLAGS.epoch,  # number of epochs
                 use_trained_model=FLAGS.use_trained_model,
