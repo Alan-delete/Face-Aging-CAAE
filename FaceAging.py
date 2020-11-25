@@ -23,7 +23,7 @@ class FaceAging(object):
                  session,  # TensorFlow session
                  size_image=128,  # size the input images
                  size_kernel=5,  # size of the kernels in convolution and deconvolution
-                 size_batch=100,  # mini-batch size for training and testing, must be square of an integer
+                 size_batch=49,  # mini-batch size for training and testing, must be square of an integer
                  num_input_channels=3,  # number of channels of input images
                  num_encoder_channels=64,  # number of channels of the first conv layer of encoder
                  num_z_channels=50,  # number of channels of the layer z (noise or code)
