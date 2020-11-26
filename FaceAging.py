@@ -451,6 +451,16 @@ class FaceAging(object):
             tf.get_variable_scope().reuse_variables()
         num_layers = int(np.log2(self.size_image)) - int(self.size_kernel / 2)
         current = image
+        # add a conv with stride 1
+        name = 'E_conv_1'
+        current = conv2d(
+                    input_map=current,
+                    num_output_channels=self.num_encoder_channels,
+                    size_kernel=self.size_kernel,
+                    name=name
+                    stride=1
+                )
+        current = tf.nn.relu(current)
         # conv layers with stride 2
         for i in range(num_layers):
             name = 'E_conv' + str(i)
