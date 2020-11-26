@@ -457,8 +457,8 @@ class FaceAging(object):
                     input_map=current,
                     num_output_channels=self.num_encoder_channels,
                     size_kernel=self.size_kernel,
+                    stride=1,
                     name=name
-                    stride=1
                 )
         current = tf.nn.relu(current)
         # conv layers with stride 2
