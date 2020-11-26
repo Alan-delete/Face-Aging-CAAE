@@ -189,7 +189,7 @@ class FaceAging(object):
               enable_shuffle=True,  # enable shuffle of the dataset
               use_trained_model=True,  # use the saved checkpoint to initialize the network
               use_init_model=True,  # use the init model to initialize the network
-              weigts=(0.0001, 0, 0)  # the weights of adversarial loss and TV loss
+              weigts=(0.0001, 0.0001, 0)  # the weights of adversarial loss and TV loss
               ):
 
         # *************************** load file names of images ******************************************************
