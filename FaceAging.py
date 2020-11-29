@@ -126,16 +126,26 @@ class FaceAging(object):
         self.EG_loss = tf.reduce_mean(tf.abs(self.input_image - self.G))  # L1 loss
 
         # loss function of discriminator on z
+        
         # here try least square loss function
-        self.D_z_loss_prior = tf.reduce_mean(
-            tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_z_prior_logits, labels=tf.ones_like(self.D_z_prior_logits))
-        )
-        self.D_z_loss_z = tf.reduce_mean(
-            tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_z_logits, labels=tf.zeros_like(self.D_z_logits))
-        )
-        self.E_z_loss = tf.reduce_mean(
-            tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_z_logits, labels=tf.ones_like(self.D_z_logits))
-        )
+        #self.D_z_loss_prior = tf.reduce_mean(
+        #    tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_z_prior_logits, labels=tf.ones_like(self.D_z_prior_logits))
+        #)
+        self.D_z_loss_prior = 1.0/2.0*tf.reduce_sum(
+            (self.D_z_prior_logits-tf.ones_like(self.D_z_prior_logits))**2
+        )        
+        #self.D_z_loss_z = tf.reduce_mean(
+        #    tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_z_logits, labels=tf.zeros_like(self.D_z_logits))
+        #)
+        self.D_z_loss_z = 1.0/2.0*tf.reduce_sum(
+            (self.D_z_logits-tf.zeros_like(self.D_z_logits))**2
+        )           
+        #self.E_z_loss = tf.reduce_mean(
+        #    tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_z_logits, labels=tf.ones_like(self.D_z_logits))
+        #)
+        self.E_z_loss = 1.0/2.0*tf.reduce_sum(
+            (self.D_z_logits-tf.ones_like(self.D_z_logits))**2
+        )                 
         # loss function of discriminator on image
         
         #self.D_img_loss_input = tf.reduce_mean(
