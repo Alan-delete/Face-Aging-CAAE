@@ -126,6 +126,7 @@ class FaceAging(object):
         self.EG_loss = tf.reduce_mean(tf.abs(self.input_image - self.G))  # L1 loss
 
         # loss function of discriminator on z
+        # here try least square loss function
         self.D_z_loss_prior = tf.reduce_mean(
             tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_z_prior_logits, labels=tf.ones_like(self.D_z_prior_logits))
         )
@@ -136,16 +137,25 @@ class FaceAging(object):
             tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_z_logits, labels=tf.ones_like(self.D_z_logits))
         )
         # loss function of discriminator on image
-        self.D_img_loss_input = tf.reduce_mean(
-            tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_input_logits, labels=tf.ones_like(self.D_input_logits))
+        
+        #self.D_img_loss_input = tf.reduce_mean(
+        #    tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_input_logits, labels=tf.ones_like(self.D_input_logits))
+        #)
+        self.D_img_loss_input = 1.0/2.0*tf.reduce_sum(
+            (self.D_input_logits-tf.ones_like(self.D_input_logits))**2
         )
-        self.D_img_loss_G = tf.reduce_mean(
-            tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_G_logits, labels=tf.zeros_like(self.D_G_logits))
+        #self.D_img_loss_G = tf.reduce_mean(
+        #    tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_G_logits, labels=tf.zeros_like(self.D_G_logits))
+        #)
+        self.D_img_loss_G = 1.0/2.0*tf.reduce_sum(
+            (self.D_G_logits-tf.zeros_like(self.D_G_logits))**2
         )
-        self.G_img_loss = tf.reduce_mean(
-            tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_G_logits, labels=tf.ones_like(self.D_G_logits))
+        #self.G_img_loss = tf.reduce_mean(
+        #    tf.nn.sigmoid_cross_entropy_with_logits(logits=self.D_G_logits, labels=tf.ones_like(self.D_G_logits))
+        #)
+        self.G_img_loss = 1.0/2.0*tf.reduce_sum(
+            (self.D_G_logits-tf.ones_like(self.D_G_logits))**2
         )
-
         # total variation to smooth the generated image
         tv_y_size = self.size_image
         tv_x_size = self.size_image
