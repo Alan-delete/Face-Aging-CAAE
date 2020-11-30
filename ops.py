@@ -27,8 +27,8 @@ def conv2d(input_map, num_output_channels, size_kernel=5, stride=2, name='conv2d
                 x=conv, 
                 mean=0, 
                 variance=1,
-                offset=None, 
-                scale=None,
+                scale=1,
+                offset=0,        
                 variance_epsilon=0.001
             )
         
@@ -76,10 +76,10 @@ def deconv2d(input_map, output_shape, size_kernel=5, stride=2, stddev=0.02, name
             conv= tf.nn.batch_normalization(
                 x=conv,
                 mean=0, 
-                variance=1
-                offset=None, 
-                scale=None,
-                variance_epsilon=0.001
+                variance=1             
+                scale=1,
+                variance_epsilon=0.001,
+                offset=0 
             )        
         return tf.nn.bias_add(deconv, biases)
        
