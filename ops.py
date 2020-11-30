@@ -3,8 +3,8 @@ import tensorflow as tf
 import numpy as np
 from scipy.misc import imread, imresize, imsave
 
-
-def conv2d(input_map, num_output_channels, size_kernel=5, stride=2, name='conv2d'):
+#Here refering DCGANS, add batch normlization 
+def conv2d(input_map, num_output_channels, size_kernel=5, stride=2, name='conv2d',BN=1):
     with tf.variable_scope(name):
         # stddev = np.sqrt(2.0 / (np.sqrt(input_map.get_shape()[-1].value * num_output_channels) * size_kernel ** 2))
         stddev = .02
@@ -21,6 +21,12 @@ def conv2d(input_map, num_output_channels, size_kernel=5, stride=2, name='conv2d
             initializer=tf.constant_initializer(0.0)
         )
         conv = tf.nn.conv2d(input_map, kernel, strides=[1, stride, stride, 1], padding='SAME')
+        
+        if (BN==1):
+            conv= tf.nn.batch_normalization(
+                x=conv, mean=0, variance=1
+            )
+        
         return tf.nn.bias_add(conv, biases)
 
 
@@ -43,7 +49,7 @@ def fc(input_vector, num_output_length, name='fc'):
         return tf.matmul(input_vector, w) + b
 
 
-def deconv2d(input_map, output_shape, size_kernel=5, stride=2, stddev=0.02, name='deconv2d'):
+def deconv2d(input_map, output_shape, size_kernel=5, stride=2, stddev=0.02, name='deconv2d',BN=1):
     with tf.variable_scope(name):
         # stddev = np.sqrt(1.0 / (np.sqrt(input_map.get_shape()[-1].value * output_shape[-1]) * size_kernel ** 2))
         stddev = .02
@@ -61,6 +67,10 @@ def deconv2d(input_map, output_shape, size_kernel=5, stride=2, stddev=0.02, name
             initializer=tf.constant_initializer(0.0)
         )
         deconv = tf.nn.conv2d_transpose(input_map, kernel, strides=[1, stride, stride, 1], output_shape=output_shape)
+        if (BN==1):
+            conv= tf.nn.batch_normalization(
+                x=conv, mean=0, variance=1
+            )        
         return tf.nn.bias_add(deconv, biases)
        
 
