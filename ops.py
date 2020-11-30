@@ -22,15 +22,15 @@ def conv2d(input_map, num_output_channels, size_kernel=5, stride=2, name='conv2d
         )
         conv = tf.nn.conv2d(input_map, kernel, strides=[1, stride, stride, 1], padding='SAME')
         
-        if (BN==1):
-            conv= tf.nn.batch_normalization(
-                x=conv, 
-                mean=0, 
-                variance=1,
-                scale=1,
-                offset=0,        
-                variance_epsilon=0.001
-            )
+        #if (BN==1):
+        #    conv= tf.nn.batch_normalization(
+        #        x=conv, 
+        #        mean=0, 
+        #        variance=1,
+        #        scale=1,
+        #        offset=0,        
+        #        variance_epsilon=0.001
+        #    )
         
         return tf.nn.bias_add(conv, biases)
 
@@ -72,15 +72,15 @@ def deconv2d(input_map, output_shape, size_kernel=5, stride=2, stddev=0.02, name
             initializer=tf.constant_initializer(0.0)
         )
         deconv = tf.nn.conv2d_transpose(input_map, kernel, strides=[1, stride, stride, 1], output_shape=output_shape)
-        if (BN==1):
-            conv= tf.nn.batch_normalization(
-                x=conv,
-                mean=0, 
-                variance=1             
-                scale=1,
-                variance_epsilon=0.001,
-                offset=0 
-            )        
+        #if (BN==1):
+        #    conv= tf.nn.batch_normalization(
+        #        x=conv,
+        #        mean=0, 
+        #        variance=1             
+        #        scale=1,
+        #        variance_epsilon=0.001,
+        #        offset=0 
+        #    )        
         return tf.nn.bias_add(deconv, biases)
        
 
