@@ -552,7 +552,8 @@ class FaceAging(object):
                           self.num_input_channels],
             size_kernel=self.size_kernel,
             stride=1,
-            name=name
+            name=name,
+            BN=0
         )
 
         # output
