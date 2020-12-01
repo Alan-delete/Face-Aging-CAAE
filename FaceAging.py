@@ -26,7 +26,7 @@ class FaceAging(object):
                  size_batch=100,  # mini-batch size for training and testing, must be square of an integer
                  num_input_channels=3,  # number of channels of input images
                  num_encoder_channels=64,  # number of channels of the first conv layer of encoder
-                 num_z_channels=50,  # number of channels of the layer z (noise or code)
+                 num_z_channels=70,  # number of channels of the layer z (noise or code)
                  num_categories=10,  # number of categories (age segments) in the training dataset
                  num_gen_channels=1024,  # number of channels of the first deconv layer of generator
                  enable_tile_label=True,  # enable to tile the label
@@ -531,6 +531,14 @@ class FaceAging(object):
                     stride=2
                 
                 )
+            if enable_bn:
+                current = tf.contrib.layers.batch_norm(
+                    current,
+                    scale=False,
+                    is_training=is_training,
+                    scope='G_deconv_bn' + str(i),
+                    reuse=reuse_variables
+                )            
             current = tf.nn.relu(current)
             #Refer to another model ,Here we add one extra layer
             name1='G_deconv_stride1' + str(i)
@@ -544,8 +552,17 @@ class FaceAging(object):
                     name=name1,
                     stride=1
                 
-                )    
+                ) 
+            if enable_bn:
+                current = tf.contrib.layers.batch_norm(
+                    current,
+                    scale=False,
+                    is_training=is_training,
+                    scope='G_deconv_stride1_bn' + str(i),
+                    reuse=reuse_variables
+                )                        
             current = tf.nn.relu(current)
+            
         name = 'G_deconv' + str(i+1)
         current = deconv2d(
             input_map=current,
@@ -629,6 +646,28 @@ class FaceAging(object):
                     reuse=reuse_variables
                 )
             current = tf.nn.relu(current)
+            
+            
+            #Refer to another model ,Here we add one extra layer
+            name1='D_img_stride1' + str(i)
+            current = conv2d(
+                    input_map=current,
+                    num_output_channels=num_hidden_layer_channels[i],
+                    size_kernel=self.size_kernel,
+                    name=name1,
+                    stride=1
+                )
+            if enable_bn:
+                current = tf.contrib.layers.batch_norm(
+                    current,
+                    scale=False,
+                    is_training=is_training,
+                    scope='D_img_stride1_bn' + str(i),
+                    reuse=reuse_variables
+                )                        
+            current = tf.nn.relu(current)
+            
+            
             if i == 0:
                 current = concat_label(current, y)
                 current = concat_label(current, gender, int(self.num_categories / 2))
