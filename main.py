@@ -3,7 +3,6 @@ from FaceAging import FaceAging
 from os import environ
 import argparse
 
-
 environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
@@ -35,7 +34,6 @@ def main(_):
 
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
-   
 
     with tf.Session(config=config) as session:
         model = FaceAging(
