@@ -526,9 +526,9 @@ class FaceAging(object):
                                   size_mini_map * 2 ** (i + 1),
                                   size_mini_map * 2 ** (i + 1),
                                   int(self.num_gen_channels / 2 ** (i + 1))],
-                    size_kernel=self.size_kernel,
+                    size_kernel=3,
                     name=name,
-                    stride=3
+                    stride=2
                 
                 )
             current = tf.nn.relu(current)
@@ -540,9 +540,9 @@ class FaceAging(object):
                                   size_mini_map * 2 ** (i + 1),
                                   size_mini_map * 2 ** (i + 1),
                                   int(self.num_gen_channels / 2 ** (i + 1))],
-                    size_kernel=self.size_kernel,
+                    size_kernel=3,
                     name=name1,
-                    stride=3
+                    stride=2
                 
                 )            
         name = 'G_deconv' + str(i+1)
