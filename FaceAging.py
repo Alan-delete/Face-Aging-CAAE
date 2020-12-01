@@ -493,6 +493,7 @@ class FaceAging(object):
         return tf.nn.tanh(current)
 
     def generator(self, z, y, gender, reuse_variables=False, enable_tile_label=True, tile_ratio=1.0):
+        enable_bn=True
         if reuse_variables:
             tf.get_variable_scope().reuse_variables()
         num_layers = int(np.log2(self.size_image)) - int(self.size_kernel / 2)
@@ -535,7 +536,7 @@ class FaceAging(object):
                 current = tf.contrib.layers.batch_norm(
                     current,
                     scale=False,
-                    is_training=is_training,
+                    is_training=True,
                     scope='G_deconv_bn' + str(i),
                     reuse=reuse_variables
                 )            
@@ -557,7 +558,7 @@ class FaceAging(object):
                 current = tf.contrib.layers.batch_norm(
                     current,
                     scale=False,
-                    is_training=is_training,
+                    is_training=True,
                     scope='G_deconv_stride1_bn' + str(i),
                     reuse=reuse_variables
                 )                        
