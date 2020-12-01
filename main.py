@@ -35,6 +35,7 @@ def main(_):
 
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
+    print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 
     with tf.Session(config=config) as session:
         model = FaceAging(
