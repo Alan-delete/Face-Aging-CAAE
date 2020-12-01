@@ -542,9 +542,10 @@ class FaceAging(object):
                                   int(self.num_gen_channels / 2 ** (i + 1))],
                     size_kernel=3,
                     name=name1,
-                    stride=2
+                    stride=1
                 
-                )            
+                )    
+            current = tf.nn.relu(current)
         name = 'G_deconv' + str(i+1)
         current = deconv2d(
             input_map=current,
