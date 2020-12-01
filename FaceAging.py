@@ -456,9 +456,8 @@ class FaceAging(object):
             self.sample(sample_images, sample_label_age, sample_label_gender, name)
             self.test(sample_images, sample_label_gender, name)
 
-            # save checkpoint for each 5 epoch
-            if np.mod(epoch, 5) == 0:
-                self.save_checkpoint()
+            # save checkpoint for each 5 epoch            
+            self.save_checkpoint()
 
         # save the trained model
         self.save_checkpoint()
