@@ -1,3 +1,8 @@
+# Here is the code we refer to, we keep the input, output format and the process of data
+# the main change is on loss function and the class "generator", inspired by Least Square Generative Adversarial Network (LSGAN).  
+
+
+
 # This code is an alternative implementation of the paper by
 # Zhifei Zhang, Yang Song, and Hairong Qi. "Age Progression/Regression by Conditional Adversarial Autoencoder."
 # IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2017.
